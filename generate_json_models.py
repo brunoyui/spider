@@ -115,10 +115,13 @@ def generate_json(file, table, output_file, kmaps):
         glist = [l.strip().split('\t') for l in f.readlines() if len(l.strip()) > 0]
     
     json_data = []
-    glist.sort(key=lambda x: x[2])
+    print(glist)
+    #glist.sort(key=lambda x: x[2])
     schemas, db_names, tables = get_schemas_from_json(table)
     for g in glist:
+        print(g)
         sql_str, db_name, id, question = g
+        print(id)
         schema = Schema(schemas[db_name], tables[db_name])
         data = get_object_info(sql_str, db_name, question, schema)
         json_data.append(data)

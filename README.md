@@ -213,7 +213,7 @@ All table contents are contained in corresponding SQLite3 database files.
 Update 11/15/20: We will use [Test Suite Accuracy](https://arxiv.org/abs/2010.02840) as our official evaluation metric for Spider, SParC, and CoSQL. Please find the evaluation code from [here](https://github.com/taoyds/test-suite-sql-eval).
 Our evaluation metrics include Component Matching, Exact Matching, and Execution Accuracy. For component and exact matching evaluation, instead of simply conducting string comparison between the predicted and gold SQL queries, we decompose each SQL into several clauses, and conduct set comparison in each SQL clause. 
 
-For Execution Accuracy, our current models do not predict any value in SQL conditions so that we do not provide execution accuracies. However, we encourage you to provide it in the future submissions. For value prediction, you can assume that a list of gold values for each question is given. Your model has to fill them into the right slots in the SQL.
+For Execution Accuracy, our current models do not predict any value in SQL conditions so that we do not provide execution accuracies. However, we encourage you to provide it in the future submissions. For value prediction, you can assume that   a list of gold values for each question is given. Your model has to fill them into the right slots in the SQL.
 
 Please refer to [our paper]() and [this page](https://github.com/taoyds/spider/tree/master/evaluation) for more details and examples.
 
@@ -231,5 +231,46 @@ arguments:
 
 ### FAQ
 
+### Extractors
+python extractor_prediction.py --file evaluation_examples/model_results/bart_rat_gap_augmented_1.eval --file_dev dataset/data/dev_sp_db_augmented_easy_1.json --output_file_predicted evaluation_examples/our_evaluation/experiments_easy/predicted_easy_augmented_1.txt --output_file_gold evaluation_examples/our_evaluation/experiments_easy/gold_easy_augmented_1.txt
+
+python extractor_prediction.py --file evaluation_examples/model_results/bart_rat_gap_easy_augmented.eval --file_dev dataset/data/dev_sp_db_augmented_easy_1.json --output_file_predicted evaluation_examples/our_evaluation/experiments_easy/predicted_easy_augmented_1.txt --output_file_gold evaluation_examples/our_evaluation/experiments_easy/gold_easy_augmented_1.txt
+
+python extractor_prediction.py --file evaluation_examples/model_results/bart_rat_gap_sp_db_adjustment.eval --file_dev dataset/data/dev_sp_db_adjust.json --output_file_predicted evaluation_examples/our_evaluation/sp_db_adjustment/predicted_sp_db_adjustment.txt --output_file_gold evaluation_examples/our_evaluation/sp_db_adjustment/gold_sp_db_adjustment.txt
+
+python extractor_prediction.py --file evaluation_examples/model_results/bart_rat_gap_augmented_clean.eval --file_dev dataset/data/dev_sp_db_augmented_easy_clean.json --output_file_predicted evaluation_examples/our_evaluation/experiments_easy/predicted_sp_db_augmented_clean.txt --output_file_gold evaluation_examples/our_evaluation/experiments_easy/gold_sp_db_augmented_clean.txt
+
+python extractor_prediction.py --file evaluation_examples/model_results/bart_rat_gap_adjust_medium.eval --file_dev dataset/data/dev_sp_db_adjust_medium_e.json --output_file_predicted evaluation_examples/our_evaluation/experiments_medium/predicted_sp_db_adjust_medium.txt --output_file_gold evaluation_examples/our_evaluation/experiments_medium/gold_sp_db_adjust_medium.txt
 
 
+### Common comands
+
+python generate_json_models.py --file_path dataset/spider_evaluation/process_mining_classified_sp_db_adjustment_easy_augmented_clean.txt --table_path dataset/data/tables_process_mining_one_table_events.json --output_file output.json
+
+python generate_json_models.py --file_path dataset/spider_evaluation/process_mining_classified_sp_db_adjustment.txt --table_path dataset/data/tables_process_mining_by_db.json --output_file output.json
+
+python evaluate_hardness.py --file_path dataset/spider_evaluation/process_mining_reformulate_spider.txt --table_path evaluation_examples/examples/tables_process_mining.json
+
+python evaluation.py --gold evaluation_examples/our_evaluation/gold_process_mining.txt --pred evaluation_examples/our_evaluation/predicted_process_mining.txt --etype match --db data/spider/database --table_path evaluation_examples/examples/tables_process_mining.json
+
+
+### Evaluation commands
+
+python evaluation_modified.py --gold evaluation_examples/our_evaluation/sp_db_adjustment/gold_sp_db_adjustment_spider.txt --pred evaluation_examples/our_evaluation/sp_db_adjustment/predicted_sp_db_adjustment_spider.txt --etype match --db data/spider/database --table evaluation_examples/examples/tables.json --file_qt evaluation_examples/examples/dev.json --is_spider YES > results/sp_db_adjustment_spider.txt
+
+python evaluation_modified.py --gold evaluation_examples/our_evaluation/sp_db_adjustment/gold_sp_db_adjustment_pm.txt --pred evaluation_examples/our_evaluation/lgesql/predicted_lgesql_process_mining.txt --etype match --db data/spider/database --table evaluation_examples/examples/tables_process_mining_lgesql.json --file_qt dataset/spider_evaluation/process_mining_classified_separated_db.txt > results/lgesql_process_mining.txt
+
+python evaluation_modified.py --gold evaluation_examples/our_evaluation/sp_db_adjustment/gold_sp_db_adjustment1_pm.txt --pred evaluation_examples/our_evaluation/sp_db_adjustment/predicted_sp_db_adjustment1_pm.txt --etype match --db data/spider/database --table evaluation_examples/examples/tables_process_mining_by_db.json --file_qt dataset/spider_evaluation/process_mining_classified_sp_db_adjustment.txt > results/sp_db_adjustment1_process_mining.txt
+
+python evaluation_modified.py --gold evaluation_examples/our_evaluation/gold_separated_db_1_process_mining.txt --pred evaluation_examples/our_evaluation/predicted_separated_db_1_process_mining.txt --etype match --db data/spider/database --table evaluation_examples/examples/tables_process_mining_by_db.json --file_qt dataset/spider_evaluation/process_mining_classified_separated_db.txt > results/sp_by_db_1_pm.txt
+
+python evaluation_modified.py --gold evaluation_examples/our_evaluation/experiments_easy/gold_easy_augmented_pm.txt --pred evaluation_examples/our_evaluation/experiments_easy/predicted_easy_augmented_pm.txt --etype match --db data/spider/database --table evaluation_examples/examples/tables_process_mining_by_db.json --file_qt dataset/spider_evaluation/process_mining_classified_sp_db_adjustment_easy_augmented.txt > results/sp_db_easy_augmented.txt
+
+python evaluation_modified.py --gold evaluation_examples/our_evaluation/experiments_easy/gold_easy_augmented_1_pm.txt --pred evaluation_examples/our_evaluation/experiments_easy/predicted_easy_augmented_1_pm.txt --etype match --db data/spider/database --table dataset/data/tables_process_mining_one_table_events.json --file_qt dataset/spider_evaluation/process_mining_classified_sp_db_adjustment_easy_augmented_1.txt > results/sp_db_easy_augmented_1.txt
+
+python evaluation_modified.py --gold evaluation_examples/our_evaluation/experiments_easy/gold_easy_augmented_1_spider.txt --pred evaluation_examples/our_evaluation/experiments_easy/predicted_easy_augmented_1_spider.txt --etype match --db data/spider/database --table evaluation_examples/examples/tables.json --file_qt evaluation_examples/examples/dev.json --is_spider YES > results/sp_db_easy_augmented_1_spider.txt
+
+
+python evaluation_modified.py --gold evaluation_examples/our_evaluation/experiments_easy/gold_sp_db_augmented_clean_pm.txt --pred evaluation_examples/our_evaluation/experiments_easy/predicted_sp_db_augmented_clean_pm.txt --etype match --db data/spider/database --table dataset/data/tables_process_mining_one_table_events.json --file_qt dataset/spider_evaluation/process_mining_classified_sp_db_adjustment_easy_augmented_clean.txt > results/sp_db_adjustment_clean_pm.txt
+
+python evaluation_modified.py --gold evaluation_examples/our_evaluation/experiments_medium/gold_sp_db_adjust_medium_pm.txt --pred evaluation_examples/our_evaluation/experiments_medium/predicted_sp_db_adjust_medium_pm.txt --etype match --db data/spider/database --table dataset/data/tables_process_mining_one_table_events.json --file_qt dataset/spider_evaluation/process_mining_classified_sp_db_adjustment_medium_e.txt > results/sp_db_adjustment_medium_pm.txt
