@@ -253,6 +253,9 @@ python evaluate_hardness.py --file_path dataset/spider_evaluation/process_mining
 
 python evaluation.py --gold evaluation_examples/our_evaluation/gold_process_mining.txt --pred evaluation_examples/our_evaluation/predicted_process_mining.txt --etype match --db data/spider/database --table_path evaluation_examples/examples/tables_process_mining.json
 
+python generate_json_models.py --file_path dataset/process_mining/6_classified_separated_db_adjust/process_mining_classified_sp_db_adjustment.txt --table_path dataset/experiments/experiment_5/pre_validation/tables_process_mining_by_db.json --output_file output.json
+
+python generate_json_models.py --file_path dataset/process_mining/11_classified_separated_db_augmented_easy_clean_cases_events_table/process_mining_classified_sp_db_adjustment_easy_augmented_clean.txt --table_path dataset/experiments/experiment_7/pre_validation/tables_process_mining_cases_events.json --output_file output.json
 
 ### Evaluation commands
 
@@ -274,3 +277,5 @@ python evaluation_modified.py --gold evaluation_examples/our_evaluation/experime
 python evaluation_modified.py --gold evaluation_examples/our_evaluation/experiments_easy/gold_sp_db_augmented_clean_pm.txt --pred evaluation_examples/our_evaluation/experiments_easy/predicted_sp_db_augmented_clean_pm.txt --etype match --db data/spider/database --table dataset/data/tables_process_mining_one_table_events.json --file_qt dataset/spider_evaluation/process_mining_classified_sp_db_adjustment_easy_augmented_clean.txt > results/sp_db_adjustment_clean_pm.txt
 
 python evaluation_modified.py --gold evaluation_examples/our_evaluation/experiments_medium/gold_sp_db_adjust_medium_pm.txt --pred evaluation_examples/our_evaluation/experiments_medium/predicted_sp_db_adjust_medium_pm.txt --etype match --db data/spider/database --table dataset/data/tables_process_mining_one_table_events.json --file_qt dataset/spider_evaluation/process_mining_classified_sp_db_adjustment_medium_e.txt > results/sp_db_adjustment_medium_pm.txt
+
+python evaluation_modified.py --gold evaluation_examples/our_evaluation/experiments_easy/gold_sp_db_augmented_clean_pm.txt --pred evaluation_examples/our_evaluation/experiments_easy/predicted_sp_db_augmented_clean_pm.txt --etype match --db data/spider/database --table dataset/data/tables_process_mining_one_table_events.json --file_qt dataset/spider_evaluation/process_mining_classified_sp_db_adjustment_easy_augmented_clean.txt > results/sp_db_adjustment_clean_pm.txt
